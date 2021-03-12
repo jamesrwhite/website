@@ -1,4 +1,5 @@
 INDEX := index.html
+STATIC := static
 DIST := dist
 
 clean:
@@ -7,4 +8,4 @@ clean:
 
 build: clean
 	cp $(INDEX) $(DIST)/
-
+	cp -r $(STATIC) $(DIST)/

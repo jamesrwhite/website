@@ -10,3 +10,7 @@ on [Cloudflare Pages](https://pages.cloudflare.com/).
 ## 🚀 Deploying
 
 Any commit to `main` is automatically deployed to [Cloudflare Pages](https://pages.cloudflare.com/).
+
+## 👨🏻‍💻 Running Locally
+
+    $ make serve

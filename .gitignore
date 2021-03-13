@@ -1,5 +1,5 @@
 dist
-src/static/css/app.css
+src/css/app.css
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,visualstudiocode,node

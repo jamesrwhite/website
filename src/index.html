@@ -8,7 +8,11 @@
 
 <body class="h-full flex bg-gradient-to-b from-blue-700 via-indigo-600 to-purple-900">
     <div class="container bg-gray-100 max-w-screen-sm m-auto">
-        <img class="border-8 bg-gray-100 border-gray-100 rounded-full object-cover mx-auto w-52 h-52 -mt-24" loading="lazy" src="static/img/me.jpg">
+        <picture>
+            <source srcset="static/img/me.webp" type="image/webp">
+            <source srcset="static/img/me.jpg" type="image/jpeg"> 
+            <img class="border-8 bg-gray-100 border-gray-100 rounded-full object-cover mx-auto w-52 h-52 -mt-24" loading="lazy" src="static/img/me.jpg">
+        </picture>
         
         <h1 class="mt-2 mb-6 text-center text-gray-900 text-5xl font-semibold">James White</h1>
         

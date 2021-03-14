@@ -17,3 +17,6 @@ build: clean
 
 serve: build
 	npx http-server $(DIST) -p $(port) -c-1
+
+watch:
+	npx watch "make build" $(SRC)

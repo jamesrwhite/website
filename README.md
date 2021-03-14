@@ -7,9 +7,17 @@ as an experiment to learn more about it and hosted on [Cloudflare Pages](https:/
 
     $ make build
 
+This will build the site and output it to `dist/`.
+
 ## 👨🏻‍💻 Running Locally
 
-    $ make serve
+    $ make serve port=8080
+
+This will build the site and serve it from `dist/`.
+
+To continuously build the site when changes are made run:
+
+    $ make watch
 
 ## 🚀 Deploying
 

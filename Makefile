@@ -15,4 +15,4 @@ build: clean
 	cp -r $(SRC)/* $(DIST)/
 
 serve: build
-	npx http-server $(DIST) -p $(port) -o
+	npx http-server $(DIST) -p $(port) -c-1

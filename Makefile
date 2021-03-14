@@ -11,8 +11,9 @@ setup:
 	npm ci
 
 build: clean
-	npx tailwindcss build src/css/tailwind.css -o src/css/app.css
 	cp -r $(SRC)/* $(DIST)/
+	npx tailwindcss build $(DIST)/css/tailwind.css -o $(DIST)/css/app.css
+	rm $(DIST)/css/tailwind.css
 
 serve: build
 	npx http-server $(DIST) -p $(port) -c-1

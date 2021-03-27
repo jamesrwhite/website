@@ -12,7 +12,7 @@ setup:
 
 build: clean
 	cp -r $(SRC)/* $(DIST)/
-	npx tailwindcss build $(DIST)/css/tailwind.css -o $(DIST)/css/app.css
+	npx postcss $(DIST)/css/tailwind.css > $(DIST)/css/app.css
 	rm $(DIST)/css/tailwind.css
 
 serve: build

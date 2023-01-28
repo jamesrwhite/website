@@ -1,5 +1,6 @@
 SRC := src
 DIST := dist
+VERSION := $(shell date +%s)
 
 port := 8080
 
@@ -12,6 +13,7 @@ setup:
 
 build: clean
 	@cp -r $(SRC)/* $(DIST)/
+	@sed -i '.backup' 's/__VERSION__/$(VERSION)/g' $(DIST)/index.html && rm -f $(DIST)/index.html.backup
 	@npx postcss $(DIST)/css/tailwind.css > $(DIST)/css/app.css
 	@rm $(DIST)/css/tailwind.css
 

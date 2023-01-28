@@ -14,7 +14,7 @@ setup:
 build: clean
 	@cp -r $(SRC)/* $(DIST)/
 	@sed -i '.backup' 's/__VERSION__/$(VERSION)/g' $(DIST)/index.html && rm -f $(DIST)/index.html.backup
-	@npx postcss $(DIST)/css/tailwind.css > $(DIST)/css/app.css
+	@npx tailwindcss -o $(DIST)/css/app.css --minify
 	@rm $(DIST)/css/tailwind.css
 
 run:

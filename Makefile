@@ -13,7 +13,7 @@ setup:
 
 build: clean
 	@cp -r $(SRC)/* $(DIST)/
-	@sed -i '.backup' 's/__VERSION__/$(VERSION)/g' $(DIST)/index.html && rm -f $(DIST)/index.html.backup
+	@sed -i'.backup' -e 's/__VERSION__/$(VERSION)/g' $(DIST)/index.html && rm -f $(DIST)/index.html.backup
 	@npx tailwindcss -o $(DIST)/css/app.css --minify
 	@rm $(DIST)/css/tailwind.css
 

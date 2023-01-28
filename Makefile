@@ -4,19 +4,23 @@ DIST := dist
 port := 8080
 
 clean:
-	rm -rf $(DIST)
-	mkdir $(DIST)
+	@rm -rf $(DIST)
+	@mkdir $(DIST)
 
 setup:
-	npm ci
+	@npm ci --no-audit --no-fund
 
 build: clean
-	cp -r $(SRC)/* $(DIST)/
-	npx postcss $(DIST)/css/tailwind.css > $(DIST)/css/app.css
-	rm $(DIST)/css/tailwind.css
+	@cp -r $(SRC)/* $(DIST)/
+	@npx postcss $(DIST)/css/tailwind.css > $(DIST)/css/app.css
+	@rm $(DIST)/css/tailwind.css
 
-serve: build
-	npx http-server $(DIST) -p $(port) -c-1
+run:
+	@npx concurrently \
+	-n build,server \
+	-c red,yellow \
+	"npx watch 'make build' $(SRC)" \
+	"echo 'Starting server on http://localhost:$(port)' && npx wrangler pages dev --port $(port) --live-reload $(DIST)"
 
-watch:
-	npx watch "make build" $(SRC)
+deploy:
+	@npx wrangler pages publish --project-name website $(DIST)

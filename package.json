@@ -3,6 +3,6 @@
     "concurrently": "^8.0.1",
     "tailwindcss": "^3.3.1",
     "watch": "^1.0.2",
-    "wrangler": "^2.20.1"
+    "wrangler": "^3.15.0"
   }
 }

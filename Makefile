@@ -25,4 +25,4 @@ run:
 	"echo 'Starting server on http://localhost:$(port)' && npx wrangler pages dev --port $(port) --live-reload $(DIST)"
 
 deploy:
-	@npx wrangler pages publish --project-name website $(DIST)
+	@npx wrangler pages deploy --project-name website $(DIST)

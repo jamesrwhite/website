@@ -1,23 +1,21 @@
 # 🌎 Website
 
-My very simple personal website built using [Tailwind](https://tailwindcss.com) 
+My very simple personal website built using [Tailwind](https://tailwindcss.com)
 as an experiment to learn more about it and hosted on [Cloudflare Pages](https://pages.cloudflare.com/).
 
 ## 👷🏻‍♂️ Building
 
-    $ make build
+    make build
 
 This will build the site and output it to `dist/`.
 
 ## 👨🏻‍💻 Running Locally
 
-    $ make serve port=8080
+Run a local server with live rebuilds:
 
-This will build the site and serve it from `dist/`.
+    make run port=8080
 
-To continuously build the site when changes are made run:
-
-    $ make watch
+This will automatically rebuild when you make changes to files in `src/` and serve the site from `dist/`.
 
 ## 🚀 Deploying
 

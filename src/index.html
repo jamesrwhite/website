@@ -9,240 +9,299 @@
     <title>James White</title>
     <style>
         @keyframes sway {
-            0% {
-                transform: rotateZ(0deg);
-                animation-timing-function: ease-out;
-            }
 
-            25% {
-                transform: rotateZ(1.5deg);
-                animation-timing-function: ease-in;
+            0%,
+            100% {
+                transform: rotate(-1deg);
             }
 
             50% {
-                transform: rotateZ(0deg);
-                animation-timing-function: ease-out;
-            }
-
-            75% {
-                transform: rotateZ(-1.5deg);
-                animation-timing-function: ease-in;
-            }
-
-            100% {
-                transform: rotateZ(0deg);
+                transform: rotate(1deg);
             }
         }
 
-        .lanyard-container {
-            animation: sway 2.5s 2 forwards;
-            transform-origin: 50% -24vh;
+        .lanyard-wrapper {
+            position: relative;
+            z-index: 10;
+            transform-origin: 50% -100px;
+            animation: sway 3s ease-in-out infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 320px;
+            margin: 0 auto;
         }
 
-        .lanyard-container.hovering {
-            animation: sway 2.5s infinite;
+        .lanyard-wrapper.hovering {
+            animation-play-state: paused;
         }
 
-        .lanyard-strap {
+        /* The Ribbons */
+        .lanyard-ribbons {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            z-index: 1;
+        }
+
+        .lanyard-ribbon {
             position: absolute;
-            top: 0;
+            bottom: 0;
             width: 24px;
-            transform-origin: top center;
-            z-index: 0;
-            background:
-                repeating-linear-gradient(0deg,
+            height: 100vh;
+            background: linear-gradient(to bottom, #8b5cf6, #6d28d9);
+            background-image:
+                repeating-linear-gradient(90deg,
                     transparent,
                     transparent 1px,
-                    rgba(0, 0, 0, 0.015) 1px,
-                    rgba(0, 0, 0, 0.015) 2px),
-                linear-gradient(90deg,
-                    rgba(0, 0, 0, 0.08) 0%,
-                    rgba(255, 255, 255, 0.05) 30%,
-                    rgba(255, 255, 255, 0.1) 50%,
-                    rgba(255, 255, 255, 0.05) 70%,
-                    rgba(0, 0, 0, 0.08) 100%),
-                linear-gradient(to bottom, #8b5cf6, #a58efb);
-            box-shadow:
-                inset 1px 0 1px rgba(255, 255, 255, 0.2),
-                inset -1px 0 1px rgba(0, 0, 0, 0.1),
-                0 2px 4px rgba(0, 0, 0, 0.1);
-            z-index: -1;
+                    rgba(0, 0, 0, 0.1) 1px,
+                    rgba(0, 0, 0, 0.1) 2px),
+                linear-gradient(to bottom, #8b5cf6, #6d28d9);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .lanyard-strap::after {
+        .ribbon-left {
+            left: 50%;
+            transform-origin: bottom center;
+            transform: translateX(-15px) rotate(15deg) skewX(2deg);
+        }
+
+        .ribbon-right {
+            left: 50%;
+            transform-origin: bottom center;
+            transform: translateX(-9px) rotate(-15deg) skewX(-2deg);
+        }
+
+        /* The Metal Crimp (holds ribbons) */
+        .metal-crimp {
+            position: relative;
+            width: 36px;
+            height: 16px;
+            background: linear-gradient(90deg, #9ca3af, #d1d5db, #6b7280);
+            border: 1px solid #4b5563;
+            border-radius: 2px;
+            z-index: 5;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            margin-top: -10px;
+            /* Pull up to cover ribbon ends */
+        }
+
+
+        .metal-crimp::after {
             content: "";
             position: absolute;
-            bottom: -5px;
+            inset: 0;
+            background: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 0, 0, 0.1) 2px, rgba(0, 0, 0, 0.1) 3px);
+        }
+
+        /* The Checkpoint/Hook Connection */
+        .metal-hook-connection {
+            position: relative;
+            width: 8px;
+            /* Thickness of the ring wire */
+            height: 20px;
+            background: linear-gradient(90deg, #9ca3af, #e5e7eb, #9ca3af);
+            margin: -2px auto 0;
+            z-index: 4;
+            border-radius: 4px;
+            border: 1px solid #6b7280;
+            box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* The Metal Hook (Ring) - Back part */
+        .metal-hook-ring {
+            position: relative;
+            width: 26px;
+            height: 40px;
+            margin: -10px auto 0;
+            border: 3px solid #d1d5db;
+            border-radius: 12px;
+            box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            /* Behind card */
+        }
+
+        .lanyard-card {
+            margin-top: -38px;
+            /* Hang from ring */
+            position: relative;
+            z-index: 5;
+            transform-style: preserve-3d;
+        }
+
+        /* The Front part of the ring - Loop through hole */
+        .metal-ring-front {
+            position: absolute;
+            top: -2px;
+            /* Align with top of back ring */
             left: 50%;
             transform: translateX(-50%);
-            width: 28px;
-            height: 8px;
-            background: linear-gradient(90deg, #9ca3af, #d1d5db, #9ca3af);
-            border-radius: 2px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-            z-index: 25;
+            width: 26px;
+            height: 24px;
+            border: 3px solid #d1d5db;
+            border-bottom: none;
+            border-radius: 12px 12px 0 0;
+            z-index: 20;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            pointer-events: none;
         }
 
-        .lanyard-strap-left {
-            left: calc(50% - 120px);
-            animation: sway 2.5s 2 forwards;
-        }
-
-        .lanyard-strap-left.hovering {
-            animation: sway 2.5s infinite;
-        }
-
-        .lanyard-strap-right {
-            right: calc(50% - 120px);
-            animation: sway 2.5s 2 forwards;
-        }
-
-        .lanyard-strap-right.hovering {
-            animation: sway 2.5s infinite;
+        @media (max-height: 700px) {
+            .lanyard-ribbons {
+                height: 80px;
+            }
         }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const container = document.querySelector('.lanyard-container');
-            const leftStrap = document.querySelector('.lanyard-strap-left');
-            const rightStrap = document.querySelector('.lanyard-strap-right');
+            const wrapper = document.querySelector('.lanyard-wrapper');
+            const card = document.querySelector('.lanyard-card');
             let isHovering = false;
+            let animationTimeout;
 
             function startHoveringAnimation() {
                 isHovering = true;
-                if (!container.classList.contains('hovering')) {
-                    container.classList.add('hovering');
-                    leftStrap.classList.add('hovering');
-                    rightStrap.classList.add('hovering');
-                }
+                wrapper.classList.add('hovering');
             }
 
             function stopHoveringAnimation() {
                 isHovering = false;
+                wrapper.classList.remove('hovering');
             }
 
-            container.addEventListener('animationiteration', () => {
-                if (!isHovering) {
-                    container.classList.remove('hovering');
-                    leftStrap.classList.remove('hovering');
-                    rightStrap.classList.remove('hovering');
-                }
-            });
-
-            container.addEventListener('mouseenter', startHoveringAnimation);
-            container.addEventListener('mouseleave', stopHoveringAnimation);
-            container.addEventListener('touchstart', startHoveringAnimation);
-            container.addEventListener('touchend', stopHoveringAnimation);
+            card.addEventListener('mouseenter', startHoveringAnimation);
+            card.addEventListener('mouseleave', stopHoveringAnimation);
+            card.addEventListener('touchstart', startHoveringAnimation);
+            card.addEventListener('touchend', stopHoveringAnimation);
         });
     </script>
 </head>
 
-<body class="h-full flex flex-col items-center justify-start relative overflow-hidden">
+<body class="h-full flex flex-col items-center justify-center relative overflow-hidden bg-gray-900">
+    <!-- Fixed background to prevent mobile sway issues -->
     <div class="fixed inset-0 -z-10 bg-gradient-to-b from-indigo-950 via-indigo-900 to-sky-900"></div>
-    <div class="lanyard-strap lanyard-strap-left h-[25vh]">
-        <div class="absolute bottom-0 w-full h-8 bg-gradient-to-b from-transparent to-black/20"></div>
-        <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-4 h-8 border-4 border-gray-400 rounded-full z-20"></div>
-    </div>
-    <div class="lanyard-strap lanyard-strap-right h-[25vh]">
-        <div class="absolute bottom-0 w-full h-8 bg-gradient-to-b from-transparent to-black/20"></div>
-        <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-4 h-8 border-4 border-gray-400 rounded-full z-20"></div>
-    </div>
-    <div class="mt-[24vh] container bg-gray-200 w-80 max-w-full mx-auto rounded-xl shadow-2xl overflow-hidden relative lanyard-container flex flex-col aspect-[2/3]" style="mask-image: radial-gradient(white, black); -webkit-mask-image: -webkit-radial-gradient(white, black);">
-        <div class="bg-gray-800 text-white text-center py-2 relative z-10 w-full shrink-0">
-            <div class="absolute top-1/2 left-[44px] -translate-y-1/2 w-4 h-4 bg-violet-500 rounded-full border border-gray-600 shadow-inner"></div>
-            <div class="absolute top-1/2 right-[44px] -translate-y-1/2 w-4 h-4 bg-violet-500 rounded-full border border-gray-600 shadow-inner"></div>
-            <span class="font-bold tracking-widest text-sm uppercase">VIP Access</span>
+
+    <div class="lanyard-wrapper">
+        <!-- V-Shape Ribbons -->
+        <div class="lanyard-ribbons">
+            <div class="lanyard-ribbon ribbon-left"></div>
+            <div class="lanyard-ribbon ribbon-right"></div>
         </div>
 
-        <div class="px-6 pb-4 pt-6 flex-1 flex flex-col items-center min-h-0">
-            <picture class="block mb-4 relative z-0">
-                <source srcset="/img/me.webp?v=__VERSION__" type="image/webp">
-                <source srcset="/img/me.jpeg?v=__VERSION__" type="image/jpeg">
-                <img class="border-4 border-white shadow-md rounded-lg object-cover w-40 h-40 transition hover:scale-105 hover:brightness-110" loading="lazy" src="/img/me.jpeg?v=__VERSION__">
-            </picture>
+        <!-- Metal Crimp (Joins ribbons) -->
+        <div class="metal-crimp"></div>
 
-            <h1 class="mb-1 text-center text-gray-900 text-3xl font-bold uppercase tracking-tight">James White</h1>
-            <p class="mb-5 text-center text-gray-500 text-xs font-mono uppercase tracking-widest">Software Engineer</p>
+        <!-- Metal connector -->
+        <div class="metal-hook-connection"></div>
 
-            <div class="w-full flex justify-between items-center bg-gray-300 rounded-md p-3 mb-4 bg-opacity-50">
-                <div class="flex flex-col text-left">
-                    <span class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Authorized</span>
-                    <span class="text-xs font-mono text-gray-700">#127001-8080</span>
-                    <span class="text-[10px] uppercase font-bold text-gray-500 tracking-wider mt-1">Valid Thru</span>
-                    <span class="text-xs font-mono text-gray-700">12/26</span>
+        <!-- Metal Hook Ring (Behind Card) -->
+        <div class="metal-hook-ring"></div>
+
+        <!-- The Card -->
+        <div class="lanyard-card container bg-gray-800 w-80 max-w-full mx-auto rounded-xl shadow-2xl overflow-visible relative flex flex-col aspect-[2/3]" style="isolation: isolate; border-radius: inherit;">
+            <div class="bg-gray-800 text-white text-center py-4 relative z-10 w-full shrink-0 rounded-t-xl">
+
+                <!-- The Slot Punch -->
+                <div class="mx-auto w-16 h-3 bg-gray-900/80 rounded-full shadow-[inset_0_1px_2px_rgba(0,0,0,1)] ring-1 ring-white/10 flex items-center justify-center -mt-1 mb-2 relative z-0 overflow-hidden">
+                    <!-- Subtle highlight inside hole -->
+                    <div class="w-12 h-0.5 bg-gray-800/10 rounded-full relative z-10"></div>
                 </div>
-                <div class="h-10 w-24 bg-gradient-to-r from-gray-900 via-transparent to-gray-900" style="background: repeating-linear-gradient(90deg, #374151 0px, #374151 2px, transparent 2px, transparent 4px, #374151 4px, #374151 5px, transparent 5px, transparent 7px, #374151 7px, #374151 10px, transparent 10px, transparent 12px);">
-                </div>
+
+                <!-- Front part of the ring -->
+                <div class="metal-ring-front"></div>
+
+                <span class="font-bold tracking-widest text-sm uppercase text-gray-400 relative z-30">VIP Access</span>
             </div>
 
-            <div class="flex justify-center space-x-3 mt-auto mb-2">
-                <a class="inline-flex items-center justify-center rounded-full p-2 transition hover:bg-black/5 active:scale-95 grayscale hover:grayscale-0" href="https://instagram.com/jamesrwhite" title="Instagram">
-                    <svg class="w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
-                        <path fill="#E4405F" d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
-                    </svg>
-                </a>
+            <div class="bg-gray-200 px-6 pb-6 pt-6 flex-1 flex flex-col items-center min-h-0 rounded-b-xl">
+                <picture class="block mb-4 relative z-0">
+                    <source srcset="/img/me.webp?v=__VERSION__" type="image/webp">
+                    <source srcset="/img/me.jpeg?v=__VERSION__" type="image/jpeg">
+                    <img class="border-4 border-white shadow-md rounded-lg object-cover w-40 h-40 transition hover:scale-105 hover:brightness-110" loading="lazy" src="/img/me.jpeg?v=__VERSION__">
+                </picture>
 
-                <a class="inline-flex items-center justify-center rounded-full p-2 transition hover:bg-black/5 active:scale-95 grayscale hover:grayscale-0" href="https://totallywanderlost.com" title="Travel">
-                    <svg class="w-6 h-6" enable-background="new 0 0 58 58" viewBox="0 0 58 58" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="29" cy="29" fill="#46C6EA" r="29" />
-                        <path d="m43.887 4.486c.121-.042.219-.112.32-.179-4.422-2.729-9.629-4.307-15.207-4.307-6.134 0-11.819 1.909-16.504 5.159.025.116.057.231.108.341 1.978 4.262 4.523 11.496 8.869 13.163 2.113.81 4.066.505 6.069 1.486.214.104.527.348.661.545 1.018 1.489.432 3.671 1.442 4.205.799.422 1.253 1.285.912 2.122-1.393 3.418-.188 7.327 3.052 10.01 2.28 1.888.382 6.264-1.536 9.7-.686 1.229.537 2.648 1.862 2.177 2.096-.746 3.831-1.827 5.84-3.555 2.913-2.505 3.543-5.235 6.43-7.362.032-.023.056-.052.069-.09.738-2.164 3.031-6.887.717-8.09-2.16-1.122-2.968-4.371-5.076-6.585-.242-.254-.586-.38-.934-.425-2.584-.333-3.746-2.298-5.485-.991-1.302.979-2.766.383-3.22-1.182-.148-.51-.409-.965-1.346-1.254-.712-.219-1.058-1.026-.802-1.725.004-.01.007-.021.011-.031.343-.934-1.589-.792-2.571-.628-.275.046.659-1.065.352-.885-1.208.713-2.707-.518-2.643-1.919.066-1.421.331-1.353 2.767-1.633 2.622-1.221 3.891-.331 3.807 2.668 1.621.24 2.187-.476 1.699-2.149-.143-.489-.028-1.034.282-1.437 2.988-3.886 5.483-5.58 10.055-7.149z" fill="#2B955E" />
-                    </svg>
-                </a>
+                <h1 class="mb-1 text-center text-gray-900 text-3xl font-bold uppercase tracking-tight">James White</h1>
+                <p class="mb-5 text-center text-gray-500 text-xs font-mono uppercase tracking-widest">Software Engineer</p>
 
-                <a class="inline-flex items-center justify-center rounded-full p-2 transition hover:bg-black/5 active:scale-95 grayscale hover:grayscale-0" href="https://linkedin.com/in/jameswhite15" title="LinkedIn">
-                    <svg class="w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
-                        <path fill="#2867B2" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.001z" />
-                    </svg>
-                </a>
+                <div class="w-full flex justify-between items-center bg-gray-300 rounded-md p-3 mb-4 bg-opacity-50">
+                    <div class="flex flex-col text-left">
+                        <span class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Authorized</span>
+                        <span class="text-xs font-mono text-gray-700">#127001-8080</span>
+                    </div>
+                    <div class="h-10 w-24 bg-gradient-to-r from-gray-900 via-transparent to-gray-900" style="background: repeating-linear-gradient(90deg, #374151 0px, #374151 2px, transparent 2px, transparent 4px, #374151 4px, #374151 5px, transparent 5px, transparent 7px, #374151 7px, #374151 10px, transparent 10px, transparent 12px);">
+                    </div>
+                </div>
 
-                <a class="inline-flex items-center justify-center rounded-full p-2 transition hover:bg-black/5 active:scale-95 text-gray-700 hover:text-black" href="https://github.com/jwhite007" title="GitHub">
-                    <svg class="w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
-                        <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-                    </svg>
-                </a>
+                <div class="flex justify-center space-x-3 mt-auto mb-2">
+                    <a class="inline-flex items-center justify-center rounded-full p-2 transition hover:bg-black/5 active:scale-95 grayscale hover:grayscale-0" href="https://instagram.com/jamesrwhite" title="Instagram">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                            <path fill="#E4405F" d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
+                        </svg>
+                    </a>
 
-                <a class="inline-flex items-center justify-center rounded-full p-2 transition hover:bg-black/5 active:scale-95 grayscale hover:grayscale-0" href="https://checksheet.app" title="Check Sheet - Google Sheets Notifications">
-                    <svg class="w-6 h-6" viewBox="0 0 1100 1100" xmlns="http://www.w3.org/2000/svg">
-                        <g fill="none" fill-rule="evenodd" transform="translate(0 -1)">
-                            <rect fill="#d5b15c" height="1000" rx="30" width="1000" y="101" />
-                            <path d="m69 170h862v862h-862z" fill="#fff" stroke="#444" stroke-width="2" />
-                            <path d="m70 171h860v215h-860z" fill="#ccc" />
-                            <path d="m70 171h215v860h-215z" fill="#ccc" />
-                            <g stroke="#444" stroke-linecap="square" stroke-width="2">
-                                <path d="m70 386h860" />
-                                <path d="m70 601h860" />
-                                <path d="m70 816h860" />
-                                <path d="m285 171v860" />
-                                <path d="m500 171v860" />
-                                <path d="m715 171v860" />
-                            </g>
-                            <g fill="#333" font-family="OpenSans-Bold, Open Sans" font-size="140" font-weight="bold"><text>
-                                    <tspan x="344.204102" y="331">A</tspan>
-                                </text><text>
-                                    <tspan x="560.46875" y="331">B</tspan>
-                                </text><text>
-                                    <tspan x="777.895508" y="331">C</tspan>
-                                </text><text>
-                                    <tspan x="137.543945" y="536">1</tspan>
-                                </text><text>
-                                    <tspan x="137.543945" y="751">2</tspan>
-                                </text><text>
-                                    <tspan x="137.543945" y="966">3</tspan>
-                                </text></g>
-                            <g fill-rule="nonzero" transform="translate(250 1)">
-                                <path d="m324.070398 0 1.356359.01400266 1.356358.08401596 1.339817.11202129 1.306736.16803192 1.306735.19603725 1.273654.23804523 1.257113.29405587 1.257112.30805853 1.224031.37807183 1.20749.42007982 1.157866.43408248 1.157867.49009311 1.124785.50409578 1.091703.56010642 1.075162.58811174 1.042081.61611707 1.008998.64412238.975916.68613036.959376.71413569.909752.74214101.876671.77014632.843589.81215431.810506.82615697.760884.868165.744343.8681649.711261.9101729.645098.9241756.612015.9661836.545852.9661836.545851 1.0081915.463147.9941889.446606 1.0361969.396983 1.0642022.314278 1.0642022.281196 1.0782049.264655 1.1062101.181951 1.1202129.132327 1.1202128.082705 1.1482182.016541 1.1482182v19.7017433h90.164748l2.183406.042008 2.150324.1120212 2.117243.1820346 2.100701.2520479 2.067619.3220612 2.051079.3920745 2.017996.4480851 1.984915.5321011 1.935292.5881118 1.90221.6441224 1.885669.700133 1.819505.7701463 1.786423.826157 1.769882.8961703 1.703719.9241756 1.654095.9801862 1.604473 1.0501995 1.55485 1.0782049 1.521768 1.1482182 1.455604 1.1762234 1.405981 1.2462368 1.339817 1.2742421 1.290195 1.3302528 1.22403 1.358258 1.174408 1.4002661 1.108244 1.4562767 1.02554 1.4702793.975916 1.52629.909752 1.52629.843589 1.5963033.760884 1.6243086.678179 1.6383113.628557 1.6943219.545851 1.694322.463147 1.7363299.363901 1.7503325.297737 1.7783379.215032 1.7923406.148869 1.8343485.033082 1.8203459v63.0679829l-.033082 1.848351-.148869 1.820346-.215032 1.792341-.297737 1.778337-.363901 1.750333-.463147 1.73633-.545851 1.708324-.628557 1.68032-.678179 1.638311-.760884 1.610306-.843589 1.596303-.909752 1.540293-.975916 1.512287-1.02554 1.498285-1.108244 1.442274-1.174408 1.400266-1.22403 1.358258-1.290195 1.31625-1.339817 1.288245-1.405981 1.232234-1.455604 1.190226-1.521768 1.148218-1.55485 1.078205-1.604473 1.0502-1.654095.980186-1.703719.938178-1.769882.868165-1.786423.84016-1.819505.756144-1.885669.714135-1.90221.658125-1.935292.560107-1.984915.532101-2.017996.462088-2.051079.392074-2.067619.308059-2.100701.26605-2.117243.168032-2.150324.126024-2.183406.042008h-394.6010321l-2.1668651-.042008-2.1668652-.126024-2.1172423-.168032-2.1007013-.26605-2.0676194-.308059-2.0510785-.392074-2.0014556-.462088-2.0014556-.532101-1.9352918-.560107-1.9022099-.658125-1.8856689-.714135-1.8195051-.756144-1.7864232-.84016-1.7533412-.868165-1.7202594-.938178-1.6540956-.980186-1.6044726-1.0502-1.5548498-1.078205-1.5217679-1.148218-1.4556041-1.190226-1.4059812-1.232234-1.3398174-1.288245-1.2901945-1.31625-1.2240307-1.358258-1.17440786-1.400266-1.09170306-1.442274-1.04208019-1.498285-.97591637-1.512287-.90975254-1.540293-.84358873-1.596303-.76088395-1.610306-.67817917-1.638311-.6285563-1.68032-.54585153-1.708324-.46314675-1.73633-.36390102-1.750333-.2977372-1.778337-.21503242-1.792341-.1488686-1.820346-.03308191-1.848351v-63.0679829l.03308191-1.8203459.1488686-1.8343485.21503242-1.7923406.2977372-1.7783379.36390102-1.7503325.46314675-1.7363299.54585153-1.694322.6285563-1.6943219.67817917-1.6383113.76088395-1.6243086.84358873-1.5963033.90975254-1.52629.97591637-1.52629 1.04208019-1.4702793 1.09170306-1.4562767 1.17440786-1.4002661 1.2240307-1.358258 1.2901945-1.3302528 1.3398174-1.2742421 1.4059812-1.2462368 1.4556041-1.1762234 1.5217679-1.1482182 1.5548498-1.0782049 1.6044726-1.0501995 1.6540956-.9801862 1.7202594-.9241756 1.7533412-.8961703 1.7864232-.826157 1.8195051-.7701463 1.8856689-.700133 1.9022099-.6441224 1.9352918-.5881118 2.0014556-.5321011 2.0014556-.4480851 2.0510785-.3920745 2.0676194-.3220612 2.1007013-.2520479 2.1172423-.1820346 2.1668652-.1120212 2.1668651-.042008h90.1647481v-19.7017433l.016541-1.1482182.099246-1.1482182.115786-1.1202128.181951-1.1202129.264655-1.1062101.281196-1.0782049.34736-1.0642022.363901-1.0642022.446606-1.0361969.463147-.9941889.545851-1.0081915.545852-.9661836.628556-.9661836.661638-.9241756.67818-.9101729.744343-.8681649.760884-.868165.810506-.82615697.843589-.81215431.876671-.77014632.909752-.74214101.959376-.71413569.975916-.68613036 1.008998-.64412238 1.042081-.61611707 1.075162-.58811174 1.091703-.56010642 1.124785-.50409578 1.157867-.49009311 1.157866-.43408248 1.20749-.42007982 1.224031-.37807183 1.257112-.30805853 1.257113-.29405587 1.273654-.23804523 1.306735-.19603725 1.306736-.16803192 1.339817-.11202129 1.356358-.08401596 1.356359-.01400266zm-74.070398 28c-16.568542 0-30 13.4314575-30 30s13.431458 30 30 30 30-13.4314575 30-30-13.431458-30-30-30z" fill="#42403f" />
-                                <g fill="#5f5b59">
-                                    <path d="m438.75 154.182955c0 4.333478-4.168522 7.828218-9.263383 7.828218-75.413865 0-292.342452 0-367.7563172 0-5.0948608 0-9.2302998-3.49474-9.2302998-7.828218 0-1.551665 0 1.579622 0 0 0-4.305521 4.135439-7.81424 9.2302998-7.81424h367.7563172c5.094861 0 9.263383 3.508719 9.263383 7.81424z" />
-                                    <path d="m438.75 122.905028c0 4.329609-4.168522 7.821229-9.263383 7.821229-75.413865 0-292.342452 0-367.7563172 0-5.0948608 0-9.2302998-3.49162-9.2302998-7.821229 0-1.550279 0 1.578212 0 0 0-4.329609 4.135439-7.821229 9.2302998-7.821229h367.7563172c5.094861 0 9.263383 3.49162 9.263383 7.821229z" />
+                    <a class="inline-flex items-center justify-center rounded-full p-2 transition hover:bg-black/5 active:scale-95 grayscale hover:grayscale-0" href="https://totallywanderlost.com" title="Travel">
+                        <svg class="w-6 h-6" enable-background="new 0 0 58 58" viewBox="0 0 58 58" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="29" cy="29" fill="#46C6EA" r="29" />
+                            <path d="m43.887 4.486c.121-.042.219-.112.32-.179-4.422-2.729-9.629-4.307-15.207-4.307-6.134 0-11.819 1.909-16.504 5.159.025.116.057.231.108.341 1.978 4.262 4.523 11.496 8.869 13.163 2.113.81 4.066.505 6.069 1.486.214.104.527.348.661.545 1.018 1.489.432 3.671 1.442 4.205.799.422 1.253 1.285.912 2.122-1.393 3.418-.188 7.327 3.052 10.01 2.28 1.888.382 6.264-1.536 9.7-.686 1.229.537 2.648 1.862 2.177 2.096-.746 3.831-1.827 5.84-3.555 2.913-2.505 3.543-5.235 6.43-7.362.032-.023.056-.052.069-.09.738-2.164 3.031-6.887.717-8.09-2.16-1.122-2.968-4.371-5.076-6.585-.242-.254-.586-.38-.934-.425-2.584-.333-3.746-2.298-5.485-.991-1.302.979-2.766.383-3.22-1.182-.148-.51-.409-.965-1.346-1.254-.712-.219-1.058-1.026-.802-1.725.004-.01.007-.021.011-.031.343-.934-1.589-.792-2.571-.628-.275.046.659-1.065.352-.885-1.208.713-2.707-.518-2.643-1.919.066-1.421.331-1.353 2.767-1.633 2.622-1.221 3.891-.331 3.807 2.668 1.621.24 2.187-.476 1.699-2.149-.143-.489-.028-1.034.282-1.437 2.988-3.886 5.483-5.58 10.055-7.149z" fill="#2B955E" />
+                        </svg>
+                    </a>
+
+                    <a class="inline-flex items-center justify-center rounded-full p-2 transition hover:bg-black/5 active:scale-95 grayscale hover:grayscale-0" href="https://linkedin.com/in/jameswhite15" title="LinkedIn">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                            <path fill="#2867B2" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.001z" />
+                        </svg>
+                    </a>
+
+                    <a class="inline-flex items-center justify-center rounded-full p-2 transition hover:bg-black/5 active:scale-95 text-gray-700 hover:text-black" href="https://github.com/jwhite007" title="GitHub">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                            <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg>
+                    </a>
+
+                    <a class="inline-flex items-center justify-center rounded-full p-2 transition hover:bg-black/5 active:scale-95 grayscale hover:grayscale-0" href="https://checksheet.app" title="Check Sheet - Google Sheets Notifications">
+                        <svg class="w-6 h-6" viewBox="0 0 1100 1100" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="none" fill-rule="evenodd" transform="translate(0 -1)">
+                                <rect fill="#d5b15c" height="1000" rx="30" width="1000" y="101" />
+                                <path d="m69 170h862v862h-862z" fill="#fff" stroke="#444" stroke-width="2" />
+                                <path d="m70 171h860v215h-860z" fill="#ccc" />
+                                <path d="m70 171h215v860h-215z" fill="#ccc" />
+                                <g stroke="#444" stroke-linecap="square" stroke-width="2">
+                                    <path d="m70 386h860" />
+                                    <path d="m70 601h860" />
+                                    <path d="m70 816h860" />
+                                    <path d="m285 171v860" />
+                                    <path d="m500 171v860" />
+                                    <path d="m715 171v860" />
+                                </g>
+                                <g fill="#333" font-family="OpenSans-Bold, Open Sans" font-size="140" font-weight="bold"><text>
+                                        <tspan x="344.204102" y="331">A</tspan>
+                                    </text><text>
+                                        <tspan x="560.46875" y="331">B</tspan>
+                                    </text><text>
+                                        <tspan x="777.895508" y="331">C</tspan>
+                                    </text><text>
+                                        <tspan x="137.543945" y="536">1</tspan>
+                                    </text><text>
+                                        <tspan x="137.543945" y="751">2</tspan>
+                                    </text><text>
+                                        <tspan x="137.543945" y="966">3</tspan>
+                                    </text></g>
+                                <g fill-rule="nonzero" transform="translate(250 1)">
+                                    <path d="m324.070398 0 1.356359.01400266 1.356358.08401596 1.339817.11202129 1.306736.16803192 1.306735.19603725 1.273654.23804523 1.257113.29405587 1.257112.30805853 1.224031.37807183 1.20749.42007982 1.157866.43408248 1.157867.49009311 1.124785.50409578 1.091703.56010642 1.075162.58811174 1.042081.61611707 1.008998.64412238.975916.68613036.959376.71413569.909752.74214101.876671.77014632.843589.81215431.810506.82615697.760884.868165.744343.8681649.711261.9101729.645098.9241756.612015.9661836.545852.9661836.545851 1.0081915.463147.9941889.446606 1.0361969.396983 1.0642022.314278 1.0642022.281196 1.0782049.264655 1.1062101.181951 1.1202129.132327 1.1202128.082705 1.1482182.016541 1.1482182v19.7017433h90.164748l2.183406.042008 2.150324.1120212 2.117243.1820346 2.100701.2520479 2.067619.3220612 2.051079.3920745 2.017996.4480851 1.984915.5321011 1.935292.5881118 1.90221.6441224 1.885669.700133 1.819505.7701463 1.786423.826157 1.769882.8961703 1.703719.9241756 1.654095.9801862 1.604473 1.0501995 1.55485 1.0782049 1.521768 1.1482182 1.455604 1.1762234 1.405981 1.2462368 1.339817 1.2742421 1.290195 1.3302528 1.22403 1.358258 1.174408 1.4002661 1.108244 1.4562767 1.02554 1.4702793.975916 1.52629.909752 1.52629.843589 1.5963033.760884 1.6243086.678179 1.6383113.628557 1.6943219.545851 1.694322.463147 1.7363299.363901 1.7503325.297737 1.7783379.215032 1.7923406.148869 1.8343485.033082 1.8203459v63.0679829l-.033082 1.848351-.148869 1.820346-.215032 1.792341-.297737 1.778337-.363901 1.750333-.463147 1.73633-.545851 1.708324-.628557 1.68032-.678179 1.638311-.760884 1.610306-.843589 1.596303-.909752 1.540293-.975916 1.512287-1.02554 1.498285-1.108244 1.442274-1.174408 1.400266-1.22403 1.358258-1.290195 1.31625-1.339817 1.288245-1.405981 1.232234-1.455604 1.190226-1.521768 1.148218-1.55485 1.078205-1.604473 1.0502-1.654095.980186-1.703719.938178-1.769882.868165-1.786423.84016-1.819505.756144-1.885669.714135-1.90221.658125-1.935292.560107-1.984915.532101-2.017996.462088-2.051079.392074-2.067619.308059-2.100701.26605-2.117243.168032-2.150324.126024-2.183406.042008h-394.6010321l-2.1668651-.042008-2.1668652-.126024-2.1172423-.168032-2.1007013-.26605-2.0676194-.308059-2.0510785-.392074-2.0014556-.462088-2.0014556-.532101-1.9352918-.560107-1.9022099-.658125-1.8856689-.714135-1.8195051-.756144-1.7864232-.84016-1.7533412-.868165-1.7202594-.938178-1.6540956-.980186-1.6044726-1.0502-1.5548498-1.078205-1.5217679-1.148218-1.4556041-1.190226-1.4059812-1.232234-1.3398174-1.288245-1.2901945-1.31625-1.2240307-1.358258-1.17440786-1.400266-1.09170306-1.442274-1.04208019-1.498285-.97591637-1.512287-.90975254-1.540293-.84358873-1.596303-.76088395-1.610306-.67817917-1.638311-.6285563-1.68032-.54585153-1.708324-.46314675-1.73633-.36390102-1.750333-.2977372-1.778337-.21503242-1.792341-.1488686-1.820346-.03308191-1.848351v-63.0679829l.03308191-1.8203459.1488686-1.8343485.21503242-1.7923406.2977372-1.7783379.36390102-1.7503325.46314675-1.7363299.54585153-1.694322.6285563-1.6943219.67817917-1.6383113.76088395-1.6243086.84358873-1.5963033.90975254-1.52629.97591637-1.52629 1.04208019-1.4702793 1.09170306-1.4562767 1.17440786-1.4002661 1.2240307-1.358258 1.2901945-1.3302528 1.3398174-1.2742421 1.4059812-1.2462368 1.4556041-1.1762234 1.5217679-1.1482182 1.5548498-1.0782049 1.6044726-1.0501995 1.6540956-.9801862 1.7202594-.9241756 1.7533412-.8961703 1.7864232-.826157 1.8195051-.7701463 1.8856689-.700133 1.9022099-.6441224 1.9352918-.5881118 2.0014556-.5321011 2.0014556-.4480851 2.0510785-.3920745 2.0676194-.3220612 2.1007013-.2520479 2.1172423-.1820346 2.1668652-.1120212 2.1668651-.042008h90.1647481v-19.7017433l.016541-1.1482182.099246-1.1482182.115786-1.1202128.181951-1.1202129.264655-1.1062101.281196-1.0782049.34736-1.0642022.363901-1.0642022.446606-1.0361969.463147-.9941889.545851-1.0081915.545852-.9661836.628556-.9661836.661638-.9241756.67818-.9101729.744343-.8681649.760884-.868165.810506-.82615697.843589-.81215431.876671-.77014632.909752-.74214101.959376-.71413569.975916-.68613036 1.008998-.64412238 1.042081-.61611707 1.075162-.58811174 1.091703-.56010642 1.124785-.50409578 1.157867-.49009311 1.157866-.43408248 1.20749-.42007982 1.224031-.37807183 1.257112-.30805853 1.257113-.29405587 1.273654-.23804523 1.306735-.19603725 1.306736-.16803192 1.339817-.11202129 1.356358-.08401596 1.356359-.01400266zm-74.070398 28c-16.568542 0-30 13.4314575-30 30s13.431458 30 30 30 30-13.4314575 30-30-13.431458-30-30-30z" fill="#42403f" />
+                                    <g fill="#5f5b59">
+                                        <path d="m438.75 154.182955c0 4.333478-4.168522 7.828218-9.263383 7.828218-75.413865 0-292.342452 0-367.7563172 0-5.0948608 0-9.2302998-3.49474-9.2302998-7.828218 0-1.551665 0 1.579622 0 0 0-4.305521 4.135439-7.81424 9.2302998-7.81424h367.7563172c5.094861 0 9.263383 3.508719 9.263383 7.81424z" />
+                                        <path d="m438.75 122.905028c0 4.329609-4.168522 7.821229-9.263383 7.821229-75.413865 0-292.342452 0-367.7563172 0-5.0948608 0-9.2302998-3.49162-9.2302998-7.821229 0-1.550279 0 1.578212 0 0 0-4.329609 4.135439-7.821229 9.2302998-7.821229h367.7563172c5.094861 0 9.263383 3.49162 9.263383 7.821229z" />
+                                    </g>
+                                </g>
+                                <g transform="translate(850)">
+                                    <path d="m125.007533 251c-69.0050018 0-125.007533-56.002531-125.007533-124.992467 0-69.0050018 56.0025312-125.007533 125.007533-125.007533 68.974869 0 124.992467 56.0025312 124.992467 125.007533 0 68.989936-56.017598 124.992467-124.992467 124.992467z" fill="#da1c1c" fill-rule="nonzero" /><text fill="#fff" font-family="OpenSans-Bold, Open Sans" font-size="200" font-weight="bold">
+                                        <tspan x="67.919922" y="214">1</tspan>
+                                    </text>
                                 </g>
                             </g>
-                            <g transform="translate(850)">
-                                <path d="m125.007533 251c-69.0050018 0-125.007533-56.002531-125.007533-124.992467 0-69.0050018 56.0025312-125.007533 125.007533-125.007533 68.974869 0 124.992467 56.0025312 124.992467 125.007533 0 68.989936-56.017598 124.992467-124.992467 124.992467z" fill="#da1c1c" fill-rule="nonzero" /><text fill="#fff" font-family="OpenSans-Bold, Open Sans" font-size="200" font-weight="bold">
-                                    <tspan x="67.919922" y="214">1</tspan>
-                                </text>
-                            </g>
-                        </g>
-                    </svg>
-                </a>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
+    </div>
